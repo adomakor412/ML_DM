@@ -1,18 +1,29 @@
+#!/usr/bin/env python
 #https://www.python.org/dev/peps/pep-0008/
+
+import AdalineGD
+import Perceptron
+import HyperTan
 
 class DSELinearClassifier():
     
-    def __init__(self,activation=None):
+    def __init__(self,activation=None,random_state=None, learning_rate=None):
         self.activation = activation
+        self.random_state = random_state
+        self.learning_rate = learning_rate
         
-        if self.activation  == 'Perceptron':
-            print("Your activation is Perception")
-        elif self.activation == 'AdalineGD':
+        if self.activation == 'AdalineGD':
             print("Your activation is AdalineGD")
+            self.classifier = AdalineGD(eta=self.learning_rate,random_state=self.random_state)
         elif self.activation == 'HyperTan':
             print("Your activation is HyperTan")
-        elif self.activation not in ['Perceptron','AdalineGD','HyperTan']:
+            self.classifier = HyperTan(eta=self.learning_rate,random_state=self.random_state)
+        else:
             self.activation = 'Perceptron'
             print("Your activation is defaulted to Perception. You can set the activation argument to 'AdalineGD' or 'HyperTan'")
+            self.classifier = Perceptron(eta=self.learning_rate,random_state=self.random_state)
         
         return
+    
+    def fit(self,x,y):
+        return self.classifier.fit(x,y)
