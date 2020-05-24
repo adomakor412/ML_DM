@@ -1,47 +1,10 @@
+import numpy as np
+import math
+e = math.e
+
 class HyperTan(object):
-  import math
-  e = math.e
-  '''  
-    def hypertan(x):
-        if x < -20.0:
-          return -1.0
-        elif x > 20.0:
-          return 1.0
-        else:
-          return math.tanh(x)
+    global e
     
-    def compute_output(self, x_value):
-        hidden_sum = np.zeros(shape=[self.n_hidden], dtype=np.float32)
-        output_sum = np.zeros(shape=[self.n_output], dtype=np.float32)
-
-        for j in range(self.n_hidden):
-            for i in range(self.n_input):
-                hidden_sum[j] += self.input_node[i] * self.i2h_weight[i,j]
-
-        for j in range(self.n_hidden):
-          self.hidden_node[j] = self.hypertan(hidden_sum[j])
-
-
-        return result
-    '''
-    
-    """ADAptive LInear NEuron classifier.
-    Parameters
-    ------------
-    eta : float
-      Learning rate (between 0.0 and 1.0)
-    n_iter : int
-      Passes over the training dataset.
-    random_state : int
-      Random number generator seed for random weight
-      initialization.
-    Attributes
-    -----------
-    w_ : 1d-array
-      Weights after fitting.
-    cost_ : list
-      Sum-of-squares cost function value in each epoch.
-    """
     def __init__(self, eta=0.01, n_iter=50, random_state=1):
         self.eta = eta
         self.n_iter = n_iter
@@ -65,6 +28,7 @@ class HyperTan(object):
         self.cost_ = []
 
         for i in range(self.n_iter):
+            global e
             net_input = self.net_input(X)
             # Please note that the "activation" method has no effect
             # in the code since it is simply an identity function. We
@@ -75,7 +39,7 @@ class HyperTan(object):
             # a sigmoid function to implement a logistic regression classifier.
             output = self.activation(net_input)
             errors = (y - output)
-            self.w_[1:] += self.eta * ( (2*e(2*X))/(1+e**(2*X))**2 ).T.dot(errors)
+            self.w_[1:] += self.eta * ( (2*e*(2*X))/(1+e**(2*X))**2 ).T.dot(errors)
             self.w_[0] += self.eta * errors.sum()
             cost = (errors**2).sum() / 2.0
             self.cost_.append(cost)
